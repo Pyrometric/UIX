@@ -38,15 +38,22 @@ var conduit = new Conduit( uix.config )
 	});
 
 	$( document ).on('click', '[data-save-object]', function(e){
+		var spinner = $('.uix-save-spinner'),
+			confirm = $('.uix-save-confirm');
 		var data = {
 			action : uix.slug + '_save_config',
 			config : JSON.stringify( conduit.config ),
 			page_slug : uix.page_slug,
 			uix_setup : uix.nonce
 		}
-		$('.uix-save-spinner').css({display: 'inline-block'});
+		spinner.css({display: 'inline-block'});
 		$.post( ajaxurl, data, function( res ){
-			$('.uix-save-spinner').hide();			
+			spinner.hide();
+			confirm.css({display: 'inline-block'}).fadeIn(function(){
+				setTimeout( function(){
+					confirm.fadeOut();
+				}, 2000)
+			})
 		} );
 	});
 
