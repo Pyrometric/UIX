@@ -26,10 +26,13 @@
 /* Control Bar */
 .uix-control-bar {
   border: 1px solid #ddd;
-  width: 100%;
+  box-sizing: padding-box;
   min-height: 24px;
+  width: 100%;
 }
-
+.uix-control-bar td {
+  padding: 6px 12px;
+}
 .uix-control-bar.hover:hover {
   background-color: rgba(0, 0, 0, 0.01);
 }
@@ -76,17 +79,17 @@
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.04);
 }
 
+td.uix-control-bar-action,
 .uix-control-bar-action {
-  display: inline-block;
+  padding: 0;
   vertical-align: middle;
+  width: 32px;
 }
 .uix-control-bar-action.left {
   border-right: 1px solid #ddd;
-  float: left;
 }
 .uix-control-bar-action.right {
   border-left: 1px solid #ddd;
-  float: right;
 }
 .uix-control-bar-action > .dashicons {
   line-height: 22px;

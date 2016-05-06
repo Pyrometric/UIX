@@ -506,7 +506,11 @@ class uix{
 			foreach( $uix['tabs'] as $tab_slug => $tab ){
 				$this->enqueue_set( $tab, $this->plugin_slug . '-' . $uix['page_slug'] . '-' . $tab_slug );
 			}
-		}	
+		}
+		if( !empty( $uix['base_color'] ) ){
+			$uix['base_color'] = '#0073aa';
+		}
+		?><style type="text/css">.contextual-help-tabs .active {border-left: 6px solid <?php echo $uix['base_color']; ?>;}.wrap > h1 {box-shadow: 0 0 2px rgba(0, 2, 0, 0.1),11px 0 0 <?php echo $uix['base_color']; ?> inset;}.uix-modal-title > h3,.wrap a.page-title-action:hover{background: <?php echo $uix['base_color']; ?>;border-color:rgba(0,0,0,0.13) !important;}</style><?php
 		$uix['nonce'] = wp_create_nonce( $this->plugin_slug );
 		wp_localize_script( $this->plugin_slug . '-core-admin', 'uix', $uix );
 	}
@@ -766,7 +770,7 @@ class uix{
 	 * @since 0.0.1
 	 */
 	public function create_admin_page(){
-		?><core></core><?php
+		?><uix-core></uix-core><?php
 	}
 	
 }

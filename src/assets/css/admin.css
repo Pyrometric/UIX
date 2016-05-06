@@ -12,7 +12,6 @@
 }
 .contextual-help-tabs .active {
   background: #f4f4f4 none repeat scroll 0 0;
-  border-left: 6px solid rgb(195, 0, 40);
 }
 #contextual-help-back {
   background: #f4f4f4 none repeat scroll 0 0;
@@ -33,7 +32,6 @@
 
 .wrap > h1 {
   background-color: #fff;
-  box-shadow: 0 0 2px rgba(0, 2, 0, 0.1), 11px 0 0 rgb(195, 0, 40) inset;
   color: #505050;
   font-weight: 300;
   min-height: 33px;
@@ -74,7 +72,6 @@
   width: 1px;
 }
 .wrap a.page-title-action:hover{
-  background: rgb(195, 0, 40);
 }
 .wrap a.page-title-action.saving {
   color: #8f8f8f;
@@ -213,7 +210,6 @@ body{
   margin: 0;
   padding: 12px 40px 12px 12px;
   clear: none;
-  background: rgb(195, 0, 40);
   color: #fff;
 }
 

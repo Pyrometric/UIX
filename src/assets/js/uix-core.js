@@ -1,40 +1,36 @@
-function Conduit(opts) {
+function configObject() {
 	var self = this
-	self.config = opts
+	if( uix.config !== null ){
+		for( var key in uix.config ){
+			self[key] = uix.config[key]
+		}
+	}
 	riot.observable(self)
 }
-if( uix.config === null ){
-	uix.config = {}
+var config = new configObject()
+function Conduit() {
+	var self = this
+	riot.observable(self)
+	self.add_node = function(){
+		console.log( arguments );
+	}
+	self.update = function(event){
+		if( event.item ){
+			event.item[ event.target.name ] = event.target.value
+		}else{
+			conduit.trigger( 'update', event, event.target.value )
+		}
+	}
 }
-
-riot.mixin( { uix : uix } )
-var conduit = new Conduit( uix.config )
-
+var conduit = new Conduit()
+riot.mount( 'uix-core' );
 !( jQuery( function($){
 
-	var currentTab = null,
-		instance;
-	
-	instance = riot.mount( 'core' );
-
-	$( document ).on('input change', 'input,select,checkbox,radio', function(e){
-		conduit.trigger( 'update', e, e.target.value )
-	});
 
 	// init tabs
 	$( document ).on('click', '[data-tab]', function(e){
 		e.preventDefault();
-		var clicked = $(this),
-			tab = clicked.data('tab');
-		
-		if( currentTab !== null ){			
-			//instanceTags[ currentTab ][0].unmount( true );
-		}
-		//instanceTags[ tab ] = riot.mount( '.uix-tab-canvas', tab );
-		currentTab = tab;
-		$('[data-tab].active').removeClass('active');
-		clicked.addClass('active');
-		conduit.trigger('tab', tab);
+		conduit.trigger('tab', $(this).data('tab') );
 	});
 
 	$( document ).on('click', '[data-save-object]', function(e){
@@ -42,7 +38,7 @@ var conduit = new Conduit( uix.config )
 			confirm = $('.uix-save-confirm');
 		var data = {
 			action : uix.slug + '_save_config',
-			config : JSON.stringify( conduit.config ),
+			config : JSON.stringify( config ),
 			page_slug : uix.page_slug,
 			uix_setup : uix.nonce
 		}
@@ -56,8 +52,4 @@ var conduit = new Conduit( uix.config )
 			})
 		} );
 	});
-
-	// whao!
-	//console.log( uix );
-
 }) );
