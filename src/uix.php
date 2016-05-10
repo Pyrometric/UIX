@@ -490,7 +490,7 @@ class uix{
 		// riot
 		wp_enqueue_script( $this->plugin_slug . '-riot', $uix_url . 'assets/js/riot' . $prefix . '.js', array(), null, true );
 		wp_enqueue_script( $this->plugin_slug . '-riot-tags', RUIX_TAGS, array( $this->plugin_slug . '-riot' ), null, true );
-
+		wp_enqueue_script( 'jquery-ui-sortable' );
 		// if has modals
 		if( !empty( $uix['modals'] ) ){
 			//wp_enqueue_script( $this->plugin_slug . '-core-modals', $uix_url . 'assets/js/uix-modals' . $prefix . '.js', array( 'jquery', 'handlebars' ), null, true );
