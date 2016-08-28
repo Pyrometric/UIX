@@ -543,10 +543,10 @@ var conduitApp = {},
         coduitTemplates[ app ] = Handlebars.compile( element.html(), { data : true } );
     });
     // init partials
-    $('script[data-handlebars-partial]').each( function(){
+    $('script[data-uix-component]').each( function(){
         var partial = $( this );
-        Handlebars.registerPartial( partial.data('handlebarsPartial'), partial.html() );
-        coduitTemplates[ '__partial_' + partial.data('handlebarsPartial') ] = Handlebars.compile( partial.html(), { data : true } );
+        Handlebars.registerPartial( partial.data('uixComponent'), partial.html() );
+        coduitTemplates[ '__partial_' + partial.data('uixComponent') ] = Handlebars.compile( partial.html(), { data : true } );
     });
     // modal capture
     $(document).on( 'click', '[data-modal-node]', function( e ) {

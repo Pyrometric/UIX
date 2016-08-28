@@ -370,7 +370,7 @@ class pages extends \uixv2\data\localized implements \uixv2\data\save{
                     <?php if( !empty( $tab['partials'] ) ){
                         foreach( $tab['partials'] as $partial_id => $partial ){
                             ?>
-                            <script type="text/html" id="__partial_<?php echo esc_attr( $partial_id ); ?>" data-handlebars-partial="<?php echo esc_attr( $partial_id ); ?>">
+                            <script type="text/html" id="__partial_<?php echo esc_attr( $partial_id ); ?>" data-uix-component="<?php echo esc_attr( $partial_id ); ?>">
                                 <?php
                                     // include this tabs template
                                     if( !empty( $partial ) && file_exists( $partial ) ){
@@ -392,7 +392,7 @@ class pages extends \uixv2\data\localized implements \uixv2\data\save{
             if( !empty( $uix['modals'] ) ){
                 foreach( $uix['modals'] as $modal_id => $modal ){
                     ?>
-                    <script type="text/html" id="__modal_<?php echo esc_attr( $modal_id ); ?>" data-handlebars-partial="<?php echo esc_attr( $modal_id ); ?>">
+                    <script type="text/html" id="__modal_<?php echo esc_attr( $modal_id ); ?>" data-uix-component="<?php echo esc_attr( $modal_id ); ?>">
                         <?php
                             // include this tabs template
                             if( !empty( $modal ) && file_exists( $modal ) ){
