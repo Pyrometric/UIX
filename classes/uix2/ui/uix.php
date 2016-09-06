@@ -160,7 +160,11 @@ abstract class uix{
         foreach ( $this->struct as $struct_key=>$sub_struct ){
             if( is_array( $sub_struct ) && uix2()->get_register_callback( $struct_key ) ){
                 foreach( $sub_struct as $sub_slug => $sub_structure ){
-                    $this->{$struct_key}( $sub_slug, $sub_structure );    
+                    $this->{$struct_key}( $sub_slug, $sub_structure );
+                    if( !empty( $sub_structure['repeatable'] ) ){
+                        $sub_structure['repeatable'] = false;
+                        uix2()->add( 'template', $this->slug, array() )->{$struct_key}( $sub_slug, $sub_structure );
+                    }
                 }
             }
         }
