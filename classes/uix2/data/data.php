@@ -56,5 +56,20 @@ abstract class data extends \uix2\ui\uix{
         return $this->data;
     }
 
+    /**
+     * Render repeatable input structs
+     *
+     * @since 2.0.0
+     * @access public
+     */
+    public function render(){
+        if( !empty( $this->struct['repeatable'] ) ){
+
+            if( !empty( $this->struct['repeatable'] ) ){
+                echo '<button class="button uix-repeatable" data-for="' . esc_attr( $this->id() ) . '" data-slug="' . esc_attr( $this->slug ) . '" type="button">Add Another</button>';
+            }
+
+        }
+    }
 
 }
