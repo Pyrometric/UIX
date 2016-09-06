@@ -146,13 +146,17 @@ class panel extends \uix2\data\data{
 
             echo '<div class="uix-' . esc_attr( $this->type ) . '-sections uix-sections">';
                 $hidden = 'false';
-                foreach( $this->child as $section ){
-                    $section->struct['active'] = $hidden;
-                    $section->render();
+                foreach( $this->child as $child ){
+                    $child->struct['active'] = $hidden;
+                    $child->render();
                     $hidden = 'true';
                 }
             echo '</div>';
+
         echo '</div>';
+
+        parent::render();
+
     }
 
     
