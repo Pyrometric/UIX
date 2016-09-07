@@ -48,32 +48,44 @@ class section extends panel {
      * @access public
      */
     public function render(){
-        
+
         if( !isset( $this->struct['active'] ) ){
             $this->struct['active'] = 'true';
         }
 
-        echo '<div id="' . esc_attr( $this->id() ) . '" class="uix-section" aria-hidden="' . esc_attr( $this->struct['active'] ) . '">';
-            echo '<div class="uix-section-content">';
-                if( !empty( $this->struct['description'] ) ){
-                    echo '<p class="description">' . esc_html( $this->struct['description'] ) . '</p>';
-                }
-                if( !empty( $this->struct['template'] ) ){
-                    // tempalte
-                    if( file_exists( $this->struct['template'] ) ){
-                        include $this->struct['template'];
-                    }else{
-                        echo esc_html__( 'Template not found: ', 'text-domain' ) . $this->struct['template'];
+        while( true ){
+            echo '<div id="' . esc_attr( $this->id() . '_' . $this->index ) . '" class="uix-section" aria-hidden="' . esc_attr( $this->struct['active'] ) . '">';
+                echo '<div class="uix-section-content">';
+                    if( !empty( $this->struct['description'] ) ){
+                        echo '<p class="description">' . esc_html( $this->struct['description'] ) . '</p>';
+                    }
+                    if( !empty( $this->struct['template'] ) ){
+                        // tempalte
+                        if( file_exists( $this->struct['template'] ) ){
+                            include $this->struct['template'];
+                        }else{
+                            echo esc_html__( 'Template not found: ', 'text-domain' ) . $this->struct['template'];
+                        }
+
+                    }elseif( !empty( $this->child ) ){
+                        foreach ( $this->child as $control ) {
+                            $control->render();
+                        }                    
                     }
 
-                }elseif( !empty( $this->child ) ){
-                    foreach ( $this->child as $control ) {
-                        $control->render();
-                    }                    
-                }
-                
+                echo '</div>';
+                // render if repeat
+                $this->render_repeater();
+
             echo '</div>';
-        echo '</div>';
+            $this->index++;
+            if( $this->index >= 4 ){
+                var_dump( $this->get_data() );                
+                die;
+            }
+            if( empty( $this->get_data() ) ){ break; }
+        }        
+
     }
 
     /**

@@ -45,7 +45,6 @@ class panel extends \uix2\data\data{
         <?php
     }
 
-
     /**
      * Define core panel styles
      *
@@ -82,14 +81,18 @@ class panel extends \uix2\data\data{
      * @return array $data Array of sections data structured by the controls
      */
     public function get_data(){
-        $data = array();
-        if( !empty( $this->child ) ){
-            foreach( $this->child as $child ) {
-                $data[ $child->slug ] = $child->get_data();
-            }
-        }
 
-        return $data;
+            if( !empty( $this->child ) ){
+                $data = array();
+                foreach( $this->child as $child ) {
+                    while( $child->has_data() ){
+                        $this->the_data();
+                        $data[ $this->index ][ $child->slug ] = $child->get_data();
+                    }
+                    $child->reset_index();
+                }
+            }
+        return null;
     }
 
     /**
@@ -99,12 +102,25 @@ class panel extends \uix2\data\data{
      * @access public
      */    
     public function set_data( $data ){
+
         if( empty( $this->child ) ){ return; }
 
-        foreach( $this->child as $child ){
-            if( isset( $data[ $child->slug ] ) )
-                $child->set_data( $data[ $child->slug ] );
+        foreach( (array) $data as $data_instance ){
+
+            foreach( $this->child as $child ){
+                // reset the child index.            
+                if( isset( $data_instance[ $child->slug ] ) ){
+                    $child->reset();
+                    foreach( $data_instance[ $child->slug ] as $value ){
+                        $child->the_data();
+                        $child->set_data( $value );
+                    }
+                }
+            }
+
         }
+        // set to this data
+        $this->data[ $this->index ] = $data;
 
     }
 
@@ -155,7 +171,8 @@ class panel extends \uix2\data\data{
 
         echo '</div>';
 
-        parent::render();
+        // render if repeat
+        $this->render_repeater();
 
     }
 

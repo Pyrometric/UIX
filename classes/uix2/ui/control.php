@@ -56,8 +56,13 @@ class control extends \uix2\data\data{
         // run parents to setup sanitization filters
         parent::setup();
         $data = uix2()->request_vars( 'post' );
-        if( isset( $data['uix'][ $this->id() ] ) )
-            $this->set_data( $data['uix'][ $this->id() ] );
+        if( isset( $data['uix'][ $this->id() ] ) ){
+            $this->reset_index();
+            foreach( $data['uix'][ $this->id() ] as $data_instance  ){
+                $this->the_data();
+                $this->set_data( $data_instance );
+            }
+        }
 
     }
     
@@ -82,9 +87,20 @@ class control extends \uix2\data\data{
      * @return string The control name
      */
     public function name(){
-        return 'uix[' . $this->id() . ']';
+        return 'uix[' . $this->id() . '][' . $this->index . ']';
     }
 
+    /**
+     * Create and Return the control's input name
+     *
+     * @since 2.0.0
+     * @access public
+     * @return string The control name
+     */
+    public function value(){
+        $data = $this->get_data();
+        return 'uix[' . $this->id() . '][' . $this->index . ']';
+    }
 
     /**
      * Gets the classes for the control input
@@ -147,7 +163,7 @@ class control extends \uix2\data\data{
      */
     public function input(){
 
-        return '<input type="' . esc_attr( $this->type ) . '" value="' . esc_attr( $this->get_data() ) . '" ' . $this->build_attributes() . '>';
+        return '<input type="' . esc_attr( $this->type ) . '" value="' . $this->get_value() . '" ' . $this->build_attributes() . '>';
     }    
 
     /**
@@ -160,7 +176,7 @@ class control extends \uix2\data\data{
     public function label(){
         
         if( isset( $this->struct['label'] ) )
-            return '<label for="' . esc_attr( $this->id() ) . '"><span class="uix-control-label">' . esc_html( $this->struct['label'] ) . '</span></label>';
+            return '<label for="control-' . esc_attr( $this->id() ) . '"><span class="uix-control-label">' . esc_html( $this->struct['label'] ) . '</span></label>';
 
         return '';
     }
@@ -190,15 +206,20 @@ class control extends \uix2\data\data{
      * @access public
      */
     public function render(){
+        
+        while( $this->has_data() ){
+            $this->the_data();
 
-        echo '<div id="' . esc_attr( $this->id() ) . '" class="uix-control uix-control-' . esc_attr( $this->type ) . '">';
-            
-            echo $this->label();
-            echo $this->input();
-            echo $this->description();
+            echo '<div id="' . esc_attr( $this->id() ) . '" class="uix-control uix-control-' . esc_attr( $this->type ) . '">';
+                
+                echo $this->label();
+                echo $this->input();
+                echo $this->description();
 
-        echo '</div>';
+            echo '</div>';
 
+        }
+        $this->render_repeater();
     }
 
     /**

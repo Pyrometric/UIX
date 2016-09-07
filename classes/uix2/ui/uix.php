@@ -61,7 +61,7 @@ abstract class uix{
      * @access public
      * @var      object/uix
      */
-    public $parent;    
+    public $parent;
 
     /**
      * Base URL of this class
@@ -161,10 +161,6 @@ abstract class uix{
             if( is_array( $sub_struct ) && uix2()->get_register_callback( $struct_key ) ){
                 foreach( $sub_struct as $sub_slug => $sub_structure ){
                     $this->{$struct_key}( $sub_slug, $sub_structure );
-                    if( !empty( $sub_structure['repeatable'] ) ){
-                        $sub_structure['repeatable'] = false;
-                        uix2()->add( 'template', $this->slug, array() )->{$struct_key}( $sub_slug, $sub_structure );
-                    }
                 }
             }
         }
@@ -249,9 +245,10 @@ abstract class uix{
      * @return string The object ID
      */
     public function id(){
-        $id = 'uix-' . $this->type . '-' . $this->slug;
+        $id = $this->slug;
         if( !empty( $this->parent ) )
-            $id .= $this->parent->id();
+            $id = $this->parent->id() . '-' . $id;
+        
         return $id;
     }
 

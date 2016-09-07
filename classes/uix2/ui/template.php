@@ -34,7 +34,6 @@ class template extends uix {
      * @access protected
      */
     protected function actions() {
-        
         parent::actions();
 
         add_action( 'admin_footer', array( $this, 'render' ) );
@@ -64,11 +63,9 @@ class template extends uix {
      * @since 2.0.0
      * @access public
      */
-    public function render(){
-        
+    public function render(){        
         foreach ( $this->child as $child ) {
             echo '<script type="text/html" id="tmpl-' . esc_attr( $child->id() ) . '">';
-                $child->slug = '{__slug__}';
                 $child->render();
             echo '</script>';
         }

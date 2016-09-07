@@ -64,6 +64,9 @@ class page extends panel implements \uix2\data\save{
             $store_key = $this->store_key();
             // get object data and push to children
             $data = get_option( $store_key, $data, array() );
+
+            $this->reset_index();
+
             $this->set_data( $data );
 
             return;
